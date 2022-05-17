@@ -1,0 +1,512 @@
+col_chart <- complete_info_per_country %>%
+ggplot(aes(x = fct_reorder(country, mean_per_order), y = mean_per_order)) +
+geom_col() +
+labs(x = "country", y = " gemiddelde per order")
+col_chart + coord_flip()
+# Scatterpoint aantal orders ten opzichte van gemiddelde order prijs
+overview_per_customer %>%
+ggplot(aes(x = total_orders, y = total_value)) +
+geom_point()
+View(overview_per_customer)
+View(col_chart)
+View(complete_info_per_country)
+overview_per_customer <- online_retail %>%
+group_by(customerid, country) %>%
+summarize(total_orders = n_distinct(invoiceno), total_value = sum(totalvalue))
+View(overview_per_customer)
+overview_per_customer <- online_retail %>%
+group_by(customerid, country) %>%
+drop_na() %>%
+summarize(total_orders = n_distinct(invoiceno), total_value = sum(totalvalue))
+View(online_retail)
+View(complete_info_per_country)
+complete_info_per_country %>% sum(total_value)
+sum(complete_info_per_country, total_value)
+sum(complete_info_per_country$total_value)
+9747748 *0.25
+8000000*5
+overview_per_customer$total_value/overview_per_customer$total_orders
+View(online_retail)
+# Installeren van packages en libraries ----
+# Packages
+install.packages("tidyverse")
+install.packages("here")
+install.packages("skimr")
+install.packages("janitor")
+# Libraries
+library(here)
+library(tidyverse)
+library(lubridate)
+library(skimr)
+library(janitor)
+# Laden van dataset ----
+setwd("CSV")
+# Originele dataset
+online_retail <- read_csv2("Online Retail4.csv")
+# Cleanen van de data ----
+# Omzetten van InvoiceDate kolom naar: datum zonder tijd in date format
+online_retail <- online_retail %>%
+separate(InvoiceDate, into = c("date"), sep = " ") %>%
+mutate(date = dmy(date)) %>%
+rename_with(tolower) %>% # Aanpassen kolomnaam naar lowercase
+clean_names()
+# Analyseren van de data ----
+# Totaalbedrag per orderregel toevoegen aan dataframe door middel van quantity * unit price
+online_retail <- online_retail %>%
+mutate(totalvalue = quantity * unitprice)
+# Overzicht per land van:
+complete_info_per_country <- online_retail %>%
+group_by(country) %>%
+summarize(customers = n_distinct(customerid), # Totaal aantal klanten
+total_orders = n_distinct(invoiceno), # Totaal aantal orders
+total_value = sum(totalvalue), # Totale waarde van alle orders
+mean_per_order = (total_value / total_orders) # Gemiddelde waarde per order
+) %>%
+mutate_if(is.numeric, ~round(., 2))
+# Overzicht aantal orders en totaalbedrag per klant
+overview_per_customer <- online_retail %>%
+group_by(customerid, country) %>%
+drop_na() %>%
+summarize(total_orders = n_distinct(invoiceno), total_value = sum(totalvalue))
+# Vizualiseren van de data ----
+# Kolomdiagram gemiddelde per order per land
+col_chart <- complete_info_per_country %>%
+ggplot(aes(x = fct_reorder(country, mean_per_order), y = mean_per_order)) +
+geom_col() +
+labs(x = "country", y = " gemiddelde per order")
+col_chart + coord_flip()
+# Scatterpoint aantal orders ten opzichte van gemiddelde order prijs
+overview_per_customer %>%
+ggplot(aes(x = total_orders, y = total_value)) +
+geom_point()
+View(online_retail)
+View(overview_per_customer)
+View(complete_info_per_country)
+summary <- complete_info_per_country %>%
+summarize(sum(total_orders), sum(total_value))
+View(summary)
+summary <- complete_info_per_country %>%
+summarize(total_orders = sum(total_orders), total_value = sum(total_value))
+View(summary)
+# Installeren van packages en libraries ----
+# Packages
+install.packages("tidyverse")
+install.packages("here")
+install.packages("skimr")
+install.packages("janitor")
+# Libraries
+library(here)
+library(tidyverse)
+library(lubridate)
+library(skimr)
+library(janitor)
+# Laden van dataset ----
+setwd("CSV")
+# Originele dataset
+online_retail <- read_csv2("Online Retail4.csv")
+View(online_retail)
+View(online_retail)
+online_retail <- read_csv2("Online Retail4.csv")
+View(online_retail)
+View(online_retail)
+# Cleanen van de data ----
+# Omzetten van InvoiceDate kolom naar: datum zonder tijd in date format
+online_retail <- online_retail %>%
+separate(InvoiceDate, into = c("date"), sep = " ") %>%
+mutate(date = dmy(date)) %>%
+rename_with(tolower) %>% # Aanpassen kolomnaam naar lowercase
+clean_names()
+# Analyseren van de data ----
+# Totaalbedrag per orderregel toevoegen aan dataframe door middel van quantity * unit price
+online_retail <- online_retail %>%
+mutate(totalvalue = quantity * unitprice)
+# Overzicht per land van:
+complete_info_per_country <- online_retail %>%
+group_by(country) %>%
+summarize(customers = n_distinct(customerid), # Totaal aantal klanten
+total_orders = n_distinct(invoiceno), # Totaal aantal orders
+total_value = sum(totalvalue), # Totale waarde van alle orders
+mean_per_order = (total_value / total_orders) # Gemiddelde waarde per order
+) %>%
+mutate_if(is.numeric, ~round(., 2))
+# Overzicht aantal orders en totaalbedrag per klant
+overview_per_customer <- online_retail %>%
+group_by(customerid, country) %>%
+drop_na() %>%
+summarize(total_orders = n_distinct(invoiceno), total_value = sum(totalvalue))
+summary <- complete_info_per_country %>%
+summarize(total_orders = sum(total_orders), total_value = sum(total_value))
+# Vizualiseren van de data ----
+# Kolomdiagram gemiddelde per order per land
+col_chart <- complete_info_per_country %>%
+ggplot(aes(x = fct_reorder(country, mean_per_order), y = mean_per_order)) +
+geom_col() +
+labs(x = "country", y = " gemiddelde per order")
+col_chart + coord_flip()
+# Scatterpoint aantal orders ten opzichte van gemiddelde order prijs
+overview_per_customer %>%
+ggplot(aes(x = total_orders, y = total_value)) +
+geom_point()
+View(complete_info_per_country)
+year <- c(56, 63, 67, 69, 65, 69, 71, 71, 74, 79, 80, 81, 87, 89)
+library(forecast)
+yearforecasts <- HoltWinters(as.ts(year), beta=FALSE, gamma=FALSE)
+yearforecasts2 <- forecast.HoltWinters(yearforecasts,h=1)
+> yearforecasts2
+#  Point Forecast    Lo 80    Hi 80    Lo 95    Hi 95
+#5       190518.3 95821.09 285215.5 45691.42 335345.2
+plot.forecast(yearforecasts2)
+install.packages("forecast")
+year <- c(56, 63, 67, 69, 65, 69, 71, 71, 74, 79, 80, 81, 87, 89)
+library(forecast)
+yearforecasts <- HoltWinters(as.ts(year), beta=FALSE, gamma=FALSE)
+yearforecasts2 <- forecast.HoltWinters(yearforecasts,h=1)
+> yearforecasts2
+#  Point Forecast    Lo 80    Hi 80    Lo 95    Hi 95
+#5       190518.3 95821.09 285215.5 45691.42 335345.2
+plot.forecast(yearforecasts2)
+View(yearforecasts)
+yearforecasts2 <- forecast.HoltWinters(yearforecasts,h=1)
+yearforecasts2 <- forecast(yearforecasts, h=1)
+hw(yearforecasts2, h=1)
+yearforecasts2 <- forecast(yearforecasts, h=2)
+hw(yearforecasts2, h=2)
+yearforecasts2 <- forecast(yearforecasts, h=8)
+hw(yearforecasts2, h=8)
+year <- c(56, 63, 67, 69, 65, 69, 71, 71, 74, 79, 80, 81, 87, 89)
+library(forecast)
+yearforecasts <- HoltWinters(year)
+yearforecasts2 <- forecast(yearforecasts, h=8)
+hw(yearforecasts2, h=8)
+yearforecasts <- HoltWinters(year)
+df <- data.frame(year=1:14, perc= year)
+library(ggplot2)
+ggplot(df, aes(x=year, y=perc)) +
+geom_point() +
+geom_smooth(method="lm", fullrange=T) +
+xlim(1,6)
+ggplot(df, aes(x=year, y=perc)) +
+geom_point() +
+geom_smooth(method="lm", fullrange=T) +
+xlim(1,16)
+ggplot(df, aes(x=year, y=perc)) +
+geom_point() +
+geom_smooth(method="lm", fullrange=T) +
+xlim(2008,2023)
+df <- data.frame(year=2008:2021, perc= year)
+ggplot(df, aes(x=year, y=perc)) +
+geom_point() +
+geom_smooth(method="lm", fullrange=T) +
+xlim(2008,2023)
+ggplot(df, aes(x=year, y=perc)) +
+geom_point() +
+geom_smooth(method="lm", fullrange=T) +
+xlim(2008,2024)
+View(df)
+View(df)
+cor(df$year,df$perc)
+plot <- ggplot(df, aes(x=year, y=perc)) +
+geom_point() +
+geom_smooth(method="lm", fullrange=T) +
+xlim(2008,2024)
+summary(plot)
+df <- data.frame(
+X = 2010:2022,
+Y = c(11539282, 11543332, 11546969, 11567845, 11593741, 11606027, 11622554, 11658609, rep(NA, 5))
+df <- data.frame(
+X = 2010:2022,
+Y = c(11539282, 11543332, 11546969, 11567845, 11593741, 11606027, 11622554, 11658609, rep(NA, 5))
+)
+df <- data.frame(
+X = (2010:2022),
+Y = c(11539282, 11543332, 11546969, 11567845, 11593741, 11606027, 11622554, 11658609, rep(NA, 5))
+)
+View(df)
+df
+model.1 <- lm(formula = Y ~ X, data = df)
+summary(model.1)
+# broom is an extremely useful package for handling models in R
+# install.packages("broom")
+install.packages("broom")
+broom::tidy(model.1, conf.int = T)
+- 22799768.60 + 17077.01 * 2018:2022
+predict(object = model.1, newdata = subset(df, X >= 2018))
+df <- data.frame(
+X = (2008:2024),
+Y = c(56, 63, 67, 69, 65, 69, 71, 71, 74, 79, 80, 81, 87, 89, rep(NA, 5))
+)
+df <- data.frame(
+X = (2008:2024),
+Y = c(56, 63, 67, 69, 65, 69, 71, 71, 74, 79, 80, 81, 87, 89, rep(NA, 5))
+df <- data.frame(
+X = (2008:2024),
+Y = c(56, 63, 67, 69, 65, 69, 71, 71, 74, 79, 80, 81, 87, 89, rep(NA, 5))
+)
+df
+df <- data.frame(
+X = (2008:2024),
+Y = c(56, 63, 67, 69, 65, 69, 71, 71, 74, 79, 80, 81, 87, 89, rep(NA, 5))
+)
+df <- data.frame(
+X = (2008:2024),
+Y = c(56, 63, 67, 69, 65, 69, 71, 71, 74, 79, 80, 81, 87, 89, rep(NA, 3))
+)
+df
+model.1 <- lm(formula = Y ~ X, data = df)
+summary(model.1)
+broom::tidy(model.1, conf.int = T)
+predict(object = model.1, newdata = subset(df, X >= 2022))
+View(df)
+prediction <- predict(object = model.1, newdata = subset(df, X >= 2022))
+View(model.1)
+prediction NL <- predict(object = model.1, newdata = subset(df, X >= 2022))
+prediction_nl <- predict(object = model.1, newdata = subset(df, X >= 2022))
+df2 <- data.frame(
+X = (2008:2024),
+Y = c(37, 41, 42, 44, 48, 54, 53, 58, 58, 62, 60, 62, 66, 63, rep(NA, 3))
+)
+model.1 <- lm(formula = Y ~ X, data = df2)
+prediction_au <- predict(object = model.1, newdata = subset(df, X >= 2022))
+df <- data.frame(
+X = (2012:2024),
+Y = c(48, 54, 53, 58, 58, 62, 60, 62, 66, 63, rep(NA, 3))
+)
+model.1 <- lm(formula = Y ~ X, data = df)
+prediction_au <- predict(object = model.1, newdata = subset(df, X >= 2022))
+df <- data.frame(
+X = (2012:2024),
+Y = c(65, 69, 71, 71, 74, 79, 80, 81, 87, 89, rep(NA, 3))
+)
+model.1 <- lm(formula = Y ~ X, data = df)
+prediction_nl <- predict(object = model.1, newdata = subset(df, X >= 2022))
+df <- data.frame(
+X = (2008:2024),
+Y = c(56, 63, 67, 69, 65, 69, 71, 71, 74, 79, 80, 81, 87, 89, rep(NA, 3))
+)
+model.1 <- lm(formula = Y ~ X, data = df)
+broom::tidy(model.1, conf.int = T)
+predict(object = model.1, newdata = df)
+nl_waar <- c(56, 63, 67, 69, 65, 69, 71, 71, 74, 79, 80, 81, 87, 89)
+nl_geschat <- c(58, 61, 63, 65, 67, 70, 72, 74, 76, 78, 80, 83, 85, 87)
+cor(nl_geschat, nl_waar)
+nl_waar <- c(56, 63, 67, 69, 65, 69, 71, 71, 74, 79, 80, 81, 87, 89, 89, 91, 93)
+nl_geschat <- c(58, 61, 63, 65, 67, 70, 72, 74, 76, 78, 80, 83, 85, 87, 89, 91, 93)
+cor(nl_geschat, nl_waar)
+nl_waar <- c(56, 63, 67, 69, 65, 69, 71, 71, 74, 79, 80, 81, 87, 89)
+nl_geschat <- c(58, 61, 63, 65, 67, 70, 72, 74, 76, 78, 80, 83, 85, 87)
+cor(nl_geschat, nl_waar)
+df <- data.frame(
+X = (2008:2024),
+Y = c(37, 41, 42, 44, 48, 54, 53, 58, 58, 62, 60, 62, 66, 63, rep(NA, 3))
+)
+model.1 <- lm(formula = Y ~ X, data = df)
+broom::tidy(model.1, conf.int = T)
+predict(object = model.1, newdata = df)
+au_waar <- c(37, 41, 42, 44, 48, 54, 53, 58, 58, 62, 60, 62, 66, 63)
+au_geschat <- c(39, 41, 44, 46, 48, 50, 52, 55, 57, 59, 61, 63, 65, 67)
+cor(au_geschat, au_waar)
+au_geschat <- c(39, 41, 44, 46, 48, 50, 52, 55, 57, 59, 61, 63, 65, 67, 70, 72, 74)
+cor(au_geschat, au_waar)
+au_geschat <- c(39, 41, 44, 46, 48, 50, 52, 55, 57, 59, 61, 63, 65, 67)
+cor(au_geschat, au_waar)
+df <- data.frame(
+X = (2008:2024),
+Y = c(56, 63, 67, 69, 65, 69, 71, 71, 74, 79, 80, 81, 87, 89, rep(NA, 3))
+)
+model.1 <- lm(formula = Y ~ X, data = df)
+broom::tidy(model.1, conf.int = T)
+prediction_nl <- predict(object = model.1, newdata = subset(df, X >= 2022))
+df <- data.frame(
+X = (2008:2024),
+Y = c(37, 41, 42, 44, 48, 54, 53, 58, 58, 62, 60, 62, 66, 63, rep(NA, 3))
+)
+model.1 <- lm(formula = Y ~ X, data = df)
+broom::tidy(model.1, conf.int = T)
+predict(object = model.1, newdata = df)
+prediction_au <- predict(object = model.1, newdata = subset(df, X >= 2022))
+nl_waar <- c(56, 63, 67, 69, 65, 69, 71, 71, 74, 79, 80, 81, 87, 89)
+nl_geschat <- c(58, 61, 63, 65, 67, 70, 72, 74, 76, 78, 80, 83, 85, 87)
+cor(nl_geschat, nl_waar)
+au_waar <- c(37, 41, 42, 44, 48, 54, 53, 58, 58, 62, 60, 62, 66, 63)
+au_geschat <- c(39, 41, 44, 46, 48, 50, 52, 55, 57, 59, 61, 63, 65, 67)
+cor(au_geschat, au_waar)
+View(df)
+library(here)
+library(tidyverse)
+library(lubridate)
+library(skimr)
+library(janitor)
+library(broom)
+# Laden van dataset ----
+setwd("CSV")
+# Originele dataset
+online_retail <- read_csv2("internet_purchases_by_individuals.csv")
+View(online_retail)
+online_retail <- read_csv2("internet_purchases_by_individuals.csv")
+View(online_retail)
+head(online_retail)
+online_retail <- read_csv2("internet_purchases_by_individuals.csv")
+View(online_retail)
+online_purchases_by_individuals <- read_csv2("internet_purchases_by_individuals.csv")
+View(online_purchases_by_individuals)
+head(online_purchases_by_individuals)
+online_purchases_by_individuals <- read_csv2("internet_purchases_by_individuals.csv")
+View(online_purchases_by_individuals)
+online_purchases_by_individuals <- read_csv2("internet_purchases_by_individuals.csv")
+head(online_purchases_by_individuals)
+View(online_purchases_by_individuals)
+online_purchases_by_individuals_2 <-  online_purchases_by_individuals %>%
+as.numeric(individuals_purchasing_online_in_percentage)
+online_purchases_by_individuals_2 <-  online_purchases_by_individuals %>%
+as.numeric(as.character(individuals_purchasing_online_in_percentage))
+online_purchases_by_individuals_2 <-  online_purchases_by_individuals %>%
+as.numeric(as.character(online_purchases_by_individuals$individuals_purchasing_online_in_percentage))
+online_purchases_by_individuals$individuals_purchasing_online_in_percentage <- as.numeric(as.character(online_purchases_by_individuals$individuals_purchasing_online_in_percentage))
+head(online_purchases_by_individuals)
+source("~/.active-rstudio-document")
+online_purchases_by_individuals <- read_csv2("internet_purchases_by_individuals.csv")
+# Omzetten percentage naar numeric value
+online_purchases_by_individuals$individuals_purchasing_online_in_percentage <- as.numeric(as.character(online_purchases_by_individuals$individuals_purchasing_online_in_percentage))
+View(online_purchases_by_individuals)
+na.omit(online_purchases_by_individuals)
+View(online_purchases_by_individuals)
+online_purchases_by_individuals <- na.omit(online_purchases_by_individuals)
+View(online_purchases_by_individuals)
+model.1 <- lm(formula = individuals_purchasing_online_in_percentage ~ year, data = online_purchases_by_individuals)
+View(model.1)
+summary(model.1)
+View(online_purchases_by_individuals)
+austria <- online_purchases_by_individuals %>%
+filter(austria)
+austria <- online_purchases_by_individuals %>%
+filter(country = "austria")
+austria <- online_purchases_by_individuals %>%
+filter(country == "austria")
+View(austria)
+austria <- online_purchases_by_individuals %>%
+filter("austria")
+austria <- online_purchases_by_individuals %>%
+filter(country == "Austria")
+View(austria)
+df <- data.frame(
+X = (2008:2024),
+Y = austria$individuals_purchasing_online_in_percentage, rep(NA, 3))
+)
+df <- data.frame(
+X = (2008:2024),
+Y = (austria$individuals_purchasing_online_in_percentage, rep(NA, 3))
+)
+df <- data.frame(
+X = (2008:2024),
+Y = c(56, 63, 67, 69, 65, 69, 71, 71, 74, 79, 80, 81, 87, 89, rep(NA, 3))
+)
+df <- data.frame(
+X = (2008:2024),
+Y = c(austria$individuals_purchasing_online_in_percentage, rep(NA, 3))
+)
+View(df)
+model.1 <- lm(formula = Y ~ X, data = df)
+broom::tidy(model.1, conf.int = T)
+predict(object = model.1, newdata = df)
+predict(object = model.1, newdata = df) %>%
+mutate_if(is.numeric, ~round(., 2))
+austria_predict <- predict(object = model.1, newdata = df)
+austria_2 <- austria
+austria_2 <- austria %>%
+cbind(austria, new_col = austria_predict)
+View(df)
+View(df)
+austria_2 <- df %>%
+cbind(df, new_col = austria_predict)
+View(austria_2)
+austria_2 <- df %>%
+cbind(df, new_col = austria_predict)
+View(austria_2)
+austria_2 <- df %>%
+cbind(new_col = austria_predict)
+View(austria_2)
+austria_2 <- df %>%
+cbind(new_col = austria_predict) %>%
+mutate_if(is.numeric, ~round(., 2))
+View(austria_2)
+austria_2 <- df %>%
+cbind(new_col = austria_predict) %>%
+mutate_if(is.numeric, ~round(., 0))
+View(austria_2)
+c("Austria")
+online_purchases_by_individuals <- read_csv2("internet_purchases_by_individuals.csv")
+# Omzetten percentage naar numeric value en weghalen gecreeerde NA values
+online_purchases_by_individuals$individuals_purchasing_online_in_percentage <- as.numeric(as.character(online_purchases_by_individuals$individuals_purchasing_online_in_percentage))
+online_purchases_by_individuals <- na.omit(online_purchases_by_individuals)
+# Analyseren van de data ----
+selected_country <- online_purchases_by_individuals %>%
+filter(country == "Austria")
+df <- data.frame(
+X = (2008:2024),
+Y = c(selected_country$individuals_purchasing_online_in_percentage, rep(NA, 3))
+)
+model.1 <- lm(formula = Y ~ X, data = df)
+broom::tidy(model.1, conf.int = T)
+predict <- predict(object = model.1, newdata = df)
+complete <- df %>%
+cbind(new_col = austria_predict) %>%
+mutate_if(is.numeric, ~round(., 0))
+complete <- df %>%
+cbind(new_col = predict) %>%
+mutate_if(is.numeric, ~round(., 0))
+View(complete)
+View(complete)
+View(complete)
+complete$new_col
+View(complete)
+complete <- df %>%
+cbind(new_col = predict) %>%
+df.insert(0, "country", "Austria")
+mutate_if(is.numeric, ~round(., 0))
+View(complete)
+complete.insert(0, "Country", "Austria")
+complete["country"] = "Austria"
+View(complete)
+complete[0, "country"] = "Austria"
+View(complete)
+# Installeren van packages en libraries ----
+# Packages
+install.packages("tidyverse")
+install.packages("here")
+install.packages("skimr")
+install.packages("janitor")
+install.packages("broom")
+# Libraries
+library(here)
+library(tidyverse)
+library(lubridate)
+library(skimr)
+library(janitor)
+library(broom)
+# Laden van dataset ----
+setwd("CSV")
+# Originele dataset
+online_purchases_by_individuals <- read_csv2("internet_purchases_by_individuals.csv")
+# Omzetten percentage naar numeric value en weghalen gecreeerde NA values
+online_purchases_by_individuals$individuals_purchasing_online_in_percentage <- as.numeric(as.character(online_purchases_by_individuals$individuals_purchasing_online_in_percentage))
+online_purchases_by_individuals <- na.omit(online_purchases_by_individuals)
+# Analyseren van de data ----
+selected_country <- online_purchases_by_individuals %>%
+filter(country == "Austria")
+# Creeren van prognose
+# create a data frame to store your variables
+df <- data.frame(
+X = (2008:2024),
+Y = c(selected_country$individuals_purchasing_online_in_percentage, rep(NA, 3))
+)
+# The lm function in R will exclude the observations with NA values while fitting the model
+model.1 <- lm(formula = Y ~ X, data = df)
+# tidy your model and include 95% confidence intervals
+broom::tidy(model.1, conf.int = T)
+# you can use the predict function as well for precise predictions
+# get predictions for every X value
+predict <- predict(object = model.1, newdata = df)
+complete <- df %>%
+cbind(new_col = predict) %>%
+mutate_if(is.numeric, ~round(., 0))
+complete[0, "country"] = "Austria"

@@ -1,0 +1,5 @@
+"0","ggplot(data = hotel_bookings) +"
+"0","  geom_point(mapping = aes(x = lead_time, y = children))"
+"2","Warning:"
+"2"," Removed 4 rows containing missing values (geom_point).
+"

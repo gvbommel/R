@@ -1,0 +1,512 @@
+install.packages("tidyverse")
+install.packages("skimr")
+install.packages("janitor")
+library(tidyverse)
+library(skimr)
+library(janitor)
+bookings_df <- read_csv("hotel_bookings.csv")
+skim_without_charts(bookings_df)
+trimmed_df <- bookings_df %>%
+select("hotel","is_cancelled","lead_time" )
+trimmed_df <- bookings_df %>%
+select(hotel, is_cancelled,lead_time)
+View(bookings_df)
+trimmed_df <- bookings_df %>%
+select(hotel, is_cancelled, lead_time)
+trimmed_df <- bookings_df %>%
+select(hotel, is_cancelled, lead_time)
+trimmed_df <- bookings_df %>%
+select(hotel, is_canceled, lead_time)
+View(trimmed_df)
+trimmed_df %>%
+select(hotel, is_canceled, lead_time) %>%
+rename(hotel_type = hotel)
+example_df <- bookings_df %>%
+select(arrival_date_year, arrival_date_month) %>%
+unite(arrival_month_year, c("arrival_date_month", "arrival_date_year"), sep = " ")
+View(bookings_df)
+example_df <- bookings_df %>%
+mutate(guests = sum(adults, children, babies) )
+head(example_df)
+example_df <- bookings_df %>%
+mutate(guests = adults + children + babies)
+head(example_df)
+example_df <- bookings_df %>%
+summarize(number_cancelled = sum(is_canceled),
+average_lead_time = mean(lead_time))
+head(example_df)
+id <- c(1:10)
+name <- c("John Mendes", "Rob Stewart", "Rachel Abrahamson", "Christy Hickman", "Johnson Harper", "Candace Miller", "Carlson Landy", "Pansy Jordan", "Darius Berry", "Claudia Garcia")
+job_title <- c("Professional", "Programmer", "Management", "Clerical", "Developer", "Programmer", "Management", "Clerical", "Developer", "Programmer")
+employee <- data.frame(id, name, job_title)
+View(employee)
+online_retail <- read_csv2("Online Retail4.csv")
+setwd("CSV")
+# Originele dataset
+online_retail <- read_csv2("Online Retail4.csv")
+View(online_retail)
+View(online_retail)
+head(online_retail)
+online_retail <- online_retail %>%
+mutate(InvoiceDate = dmy_hms(InvoiceDate)) %>%
+rename_with(tolower) %>%
+clean_names()
+View(online_retail)
+library(here)
+library(tidyverse)
+library(lubridate)
+library(skimr)
+library(janitor)
+online_retail <- online_retail %>%
+mutate(InvoiceDate = dmy_hms(InvoiceDate)) %>%
+rename_with(tolower) %>%
+clean_names()
+View(online_retail)
+online_retail <- online_retail %>%
+mutate(totalvalue = quantity * unitprice)
+View(online_retail)
+complete_info_per_country <- online_retail %>%
+group_by(country) %>%
+summarize(customers = n_distinct(customerid), # Totaal aantal klanten
+total_orders = n_distinct(invoiceno), # Totaal aantal orders
+total_value = sum(totalvalue), # Totale waarde van alle orders
+mean_per_order = (total_value / total_orders) # Gemiddelde waarde per order
+) %>%
+mutate_if(is.numeric, ~round(., 2))
+View(complete_info_per_country)
+overview_per_customer <- online_retail %>%
+group_by(customerid, country) %>%
+drop_na() %>%
+summarize(total_orders = n_distinct(invoiceno), total_value = sum(totalvalue))
+View(overview_per_customer)
+online_retail <- read_csv2("Online Retail4.csv")
+# Cleanen van de data ----
+# Omzetten character datatype van InvoiceDate kolom naar datetime formaat
+# Aanpassen kolomnaam naar lowercase
+online_retail <- online_retail %>%
+mutate(InvoiceDate = dmy_hms(InvoiceDate)) %>%
+rename_with(tolower) %>%
+clean_names()
+# Analyseren van de data ----
+# Totaalbedrag per orderregel toevoegen aan dataframe door middel van quantity * unit price
+online_retail <- online_retail %>%
+mutate(totalvalue = quantity * unitprice)
+# Overzicht per land van:
+complete_info_per_country <- online_retail %>%
+group_by(country) %>%
+summarize(customers = n_distinct(customerid), # Totaal aantal klanten
+total_orders = n_distinct(invoiceno), # Totaal aantal orders
+total_value = sum(totalvalue), # Totale waarde van alle orders
+mean_per_order = (total_value / total_orders) # Gemiddelde waarde per order
+) %>%
+mutate_if(is.numeric, ~round(., 2))
+# Overzicht aantal orders en totaalbedrag per klant
+overview_per_customer <- online_retail %>%
+group_by(customerid, country) %>%
+drop_na() %>%
+summarize(total_orders = n_distinct(invoiceno), total_value = sum(totalvalue))
+View(online_retail)
+View(overview_per_customer)
+View(online_retail)
+View(overview_per_customer)
+View(online_retail)
+id <- c(1:10)
+name <- c("John Mendes", "Rob Stewart", "Rachel Abrahamson", "Christy Hickman", "Johnson Harper", "Candace Miller", "Carlson Landy", "Pansy Jordan", "Darius Berry", "Claudia Garcia")
+job_title <- c("Professional", "Programmer", "Management", "Clerical", "Developer", "Programmer", "Management", "Clerical", "Developer", "Programmer")
+employee <- data.frame(id, name, job_title)
+separate(employee, name, into = c("first_name", "last_name"), sep = " ")
+employee_2 <- employee %>%
+separate(name, into = c("first_name", "last_name"), sep = " ")
+View(employee_2)
+View(employee_2)
+unite(employee_2, "name", first_name, last_name, sep = " ")
+# Originele dataset
+online_retail <- read_csv2("Online Retail4.csv")
+View(online_retail)
+online_retail <- online_retail %>%
+separate(InvoiceDate, into = c("date"), sep = " ")
+View(online_retail)
+View(online_retail)
+online_retail <- online_retail %>%
+separate(InvoiceDate, into = c("date"), sep = " ") %>%
+mutate(InvoiceDate = dmy(InvoiceDate)) %>%
+rename_with(tolower) %>%
+clean_names()
+online_retail <- online_retail %>%
+separate(InvoiceDate, into = c("date"), sep = " ") %>%
+mutate(date = dmy(date)) %>%
+rename_with(tolower) %>%
+clean_names()
+View(online_retail)
+# Originele dataset
+online_retail <- read_csv2("Online Retail4.csv")
+online_retail <- online_retail %>%
+separate(InvoiceDate, into = c("date"), sep = " ") %>%
+mutate(date = dmy(date)) %>%
+rename_with(tolower) %>%
+clean_names()
+View(online_retail)
+head(online_retail)
+View(online_retail)
+online_retail <- read_csv2("Online Retail4.csv")
+# Cleanen van de data ----
+# Omzetten van InvoiceDate kolom naar: datum zonder tijd in date format
+online_retail <- online_retail %>%
+separate(InvoiceDate, into = c("date"), sep = " ") %>%
+mutate(date = dmy(date)) %>%
+rename_with(tolower) %>% # Aanpassen kolomnaam naar lowercase
+clean_names()
+# Analyseren van de data ----
+# Totaalbedrag per orderregel toevoegen aan dataframe door middel van quantity * unit price
+online_retail <- online_retail %>%
+mutate(totalvalue = quantity * unitprice)
+# Overzicht per land van:
+complete_info_per_country <- online_retail %>%
+group_by(country) %>%
+summarize(customers = n_distinct(customerid), # Totaal aantal klanten
+total_orders = n_distinct(invoiceno), # Totaal aantal orders
+total_value = sum(totalvalue), # Totale waarde van alle orders
+mean_per_order = (total_value / total_orders) # Gemiddelde waarde per order
+) %>%
+mutate_if(is.numeric, ~round(., 2))
+# Overzicht aantal orders en totaalbedrag per klant
+overview_per_customer <- online_retail %>%
+group_by(customerid, country) %>%
+drop_na() %>%
+summarize(total_orders = n_distinct(invoiceno), total_value = sum(totalvalue))
+View(online_retail)
+View(overview_per_customer)
+View(complete_info_per_country)
+View(online_retail)
+View(online_retail)
+install.packages("Tmisc")
+library(Tmisc)
+data(quartet)
+View(quartet)
+quartet %>%
+group_by(set) %>%
+summarize(mean(x), sd(x), mean(y), sd(y), cor(x,y))
+install.packages("datasauRus")
+library("datasauRus")
+# Coursera Week 3 The Bias Function
+install.packages("SimDesign")
+library(SimDesign)
+actual_temp <- c(68.3, 70, 72.4, 71, 67, 70)
+predicted_temp <- c(67.9, 69, 71.5, 70, 67, 69)
+bias(actual_temp, predicted_temp)
+actual_sales <- c(150, 203, 137, 247, 116, 287)
+predicted_sales <- c(200, 300, 150, 250, 150, 300)
+bias(actual_sales, predicted_sales)
+install.packages("tidyverse")
+install.packages("skimr")
+install.packages("janitor")
+install.packages("tidyverse")
+install.packages("tidyverse")
+install.packages("skimr")
+install.packages("janitor")
+library(tidyverse)
+library(skimr)
+library(janitor)
+hotel_bookings <- read_csv("")
+hotel_bookings <- read_csv("hotel_bookings")
+hotel_bookings <- read_csv("hotel_bookings.csv")
+head(hotel_bookings)
+str(hotel_bookings)
+glimpse(hotel_bookings)
+colnames(hotel_bookings)
+arrange(hotel_bookings, lead_time)
+arrange(hotel_bookings, -lead_time)
+arrange(hotel_bookings, desc(lead_time))
+head(hotel_bookings)
+hotel_bookings_v2 <-
+arrange(hotel_bookings, desc(lead_time))
+head(hotel_bookings_v2)
+max(hotel_bookings$lead_time)
+min(hotel_bookings$lead_time)
+min(lead_time)
+mean(hotel_bookings$lead_time)
+mean(hotel_bookings_v2$lead_time)
+hotel_bookings_city <-
+filter(hotel_bookings, hotel_bookings$hotel=="City Hotel")
+head(hotel_bookings_city)
+mean(hotel_bookings_city$lead_time)
+hotel_summary <-
+hotel_bookings %>%
+group_by(hotel) %>%
+summarise(average_lead_time=mean(lead_time),
+min_lead_time=min(lead_time),
+max_lead_time=max(lead_time))
+head(hotel_summary)
+skim_without_charts(hotel_bookings)
+str(hotel_bookings)
+colnames(hotel_bookings)
+head(hotel_bookings)
+install.packages("ggplot2")
+install.packages("palmerpenguins")
+library(ggplot2)
+library(palmerpenguins)
+data(penguins)
+View(penguins)
+ggplot(data = penguins) + geom_point(mapping = aes(x = flipper_lenght_mm, y = body_mass_g))
+ggplot(data = penguins) + geom_point(mapping = aes(x = flipper_length_mm, y = body_mass_g))
+online_retail <- read_csv2("Online Retail4.csv")
+# Cleanen van de data ----
+# Omzetten van InvoiceDate kolom naar: datum zonder tijd in date format
+online_retail <- online_retail %>%
+separate(InvoiceDate, into = c("date"), sep = " ") %>%
+mutate(date = dmy(date)) %>%
+rename_with(tolower) %>% # Aanpassen kolomnaam naar lowercase
+clean_names()
+# Analyseren van de data ----
+# Totaalbedrag per orderregel toevoegen aan dataframe door middel van quantity * unit price
+online_retail <- online_retail %>%
+mutate(totalvalue = quantity * unitprice)
+# Overzicht per land van:
+complete_info_per_country <- online_retail %>%
+group_by(country) %>%
+summarize(customers = n_distinct(customerid), # Totaal aantal klanten
+total_orders = n_distinct(invoiceno), # Totaal aantal orders
+total_value = sum(totalvalue), # Totale waarde van alle orders
+mean_per_order = (total_value / total_orders) # Gemiddelde waarde per order
+) %>%
+mutate_if(is.numeric, ~round(., 2))
+# Overzicht aantal orders en totaalbedrag per klant
+overview_per_customer <- online_retail %>%
+group_by(customerid, country) %>%
+drop_na() %>%
+summarize(total_orders = n_distinct(invoiceno), total_value = sum(totalvalue))
+library(here)
+library(tidyverse)
+library(lubridate)
+library(skimr)
+library(janitor)
+# Laden van dataset ----
+setwd("CSV")
+# Originele dataset
+online_retail <- read_csv2("Online Retail4.csv")
+# Cleanen van de data ----
+# Omzetten van InvoiceDate kolom naar: datum zonder tijd in date format
+online_retail <- online_retail %>%
+separate(InvoiceDate, into = c("date"), sep = " ") %>%
+mutate(date = dmy(date)) %>%
+rename_with(tolower) %>% # Aanpassen kolomnaam naar lowercase
+clean_names()
+# Analyseren van de data ----
+# Totaalbedrag per orderregel toevoegen aan dataframe door middel van quantity * unit price
+online_retail <- online_retail %>%
+mutate(totalvalue = quantity * unitprice)
+# Overzicht per land van:
+complete_info_per_country <- online_retail %>%
+group_by(country) %>%
+summarize(customers = n_distinct(customerid), # Totaal aantal klanten
+total_orders = n_distinct(invoiceno), # Totaal aantal orders
+total_value = sum(totalvalue), # Totale waarde van alle orders
+mean_per_order = (total_value / total_orders) # Gemiddelde waarde per order
+) %>%
+mutate_if(is.numeric, ~round(., 2))
+# Overzicht aantal orders en totaalbedrag per klant
+overview_per_customer <- online_retail %>%
+group_by(customerid, country) %>%
+drop_na() %>%
+summarize(total_orders = n_distinct(invoiceno), total_value = sum(totalvalue))
+View(overview_per_customer)
+View(online_retail)
+View(complete_info_per_country)
+ggplot(data = complete_info_per_country, mapping = aes(x = country, y = mean_per_order)) + geom_bar()
+ggplot(data = complete_info_per_country, mapping = aes(x = country, y = mean_per_order)) + geom_point()
+ggplot(data = complete_info_per_country, mapping = aes(x = country)) + geom_bar()
+ggplot(data = complete_info_per_country, mapping = aes(y = mean_per_order)) + geom_bar()
+ggplot(data = complete_info_per_country, mapping = aes(x = country, y = mean_per_order)) + geom_col()
+ggplot(data = complete_info_per_country, mapping = aes(x = country, y = mean_per_order)) + geom_col() %>%
+order_by(mean_per_order)
+ggplot(data = complete_info_per_country, mapping = aes(x = country, y = mean_per_order)) + geom_col() %>%
+arrange(mean_per_order)
+ggplot(complete_info_per_country, mapping = aes(x = country, y = mean_per_order)) + geom_col()
+ggplot(complete_info_per_country, aes(x = country, y = mean_per_order)) + geom_col()
+complete_info_per_country %>%
+ggplot(aes(x = fct_rev(fct_reorder(country, mean_per_order)), y = mean_per_order)) +
+geom_col() +
+labs(x = "country")
+col_chart <- complete_info_per_country %>%
+ggplot(aes(x = fct_rev(fct_reorder(country, mean_per_order)), y = mean_per_order)) +
+geom_col() +
+labs(x = "country")
+View(col_chart)
+col_chart + coord_flip()
+col_chart <- complete_info_per_country %>%
+ggplot(aes(x = fct_reorder(country, mean_per_order), y = mean_per_order)) +
+geom_col() +
+labs(x = "country")
+col_chart + coord_flip()
+col_chart <- complete_info_per_country %>%
+ggplot(aes(x = fct_reorder(country, mean_per_order), y = mean_per_order)) +
+geom_col() +
+labs(x = "country", y = " gemiddelde per order")
+col_chart + coord_flip()
+complete_info_per_country %>%
+ggplot(aes(x = mean_per_order, y = total_orders)) +
+geom_point()
+complete_info_per_country %>%
+filter(United Kingdom) %>%
+ggplot(aes(x = mean_per_order, y = total_orders)) +
+geom_point()
+complete_info_per_country %>%
+filter(United Kingdom)
+complete_info_per_country %>%
+filter("United Kingdom")
+overview_per_customer %>%
+ggplot(aes(x = total_orders, y = total_value))
+overview_per_customer %>%
+ggplot(aes(x = total_orders, y = total_value)) +
+geom_point()
+col_chart <- complete_info_per_country %>%
+ggplot(aes(x = fct_reorder(country, mean_per_order), y = mean_per_order)) +
+geom_col() +
+labs(x = "country", y = " gemiddelde per order")
+# Installeren van packages en libraries ----
+# Packages
+install.packages("tidyverse")
+install.packages("here")
+install.packages("skimr")
+install.packages("janitor")
+# Libraries
+library(here)
+library(tidyverse)
+library(lubridate)
+library(skimr)
+library(janitor)
+# Laden van dataset ----
+setwd("CSV")
+# Originele dataset
+online_retail <- read_csv2("Online Retail4.csv")
+# Cleanen van de data ----
+# Omzetten van InvoiceDate kolom naar: datum zonder tijd in date format
+online_retail <- online_retail %>%
+separate(InvoiceDate, into = c("date"), sep = " ") %>%
+mutate(date = dmy(date)) %>%
+rename_with(tolower) %>% # Aanpassen kolomnaam naar lowercase
+clean_names()
+# Analyseren van de data ----
+# Totaalbedrag per orderregel toevoegen aan dataframe door middel van quantity * unit price
+online_retail <- online_retail %>%
+mutate(totalvalue = quantity * unitprice)
+# Overzicht per land van:
+complete_info_per_country <- online_retail %>%
+group_by(country) %>%
+summarize(customers = n_distinct(customerid), # Totaal aantal klanten
+total_orders = n_distinct(invoiceno), # Totaal aantal orders
+total_value = sum(totalvalue), # Totale waarde van alle orders
+mean_per_order = (total_value / total_orders) # Gemiddelde waarde per order
+) %>%
+mutate_if(is.numeric, ~round(., 2))
+# Overzicht aantal orders en totaalbedrag per klant
+overview_per_customer <- online_retail %>%
+group_by(customerid, country) %>%
+drop_na() %>%
+summarize(total_orders = n_distinct(invoiceno), total_value = sum(totalvalue))
+# Vizualiseren van de data ----
+# Kolomdiagram gemiddelde per order per land
+col_chart <- complete_info_per_country %>%
+ggplot(aes(x = fct_reorder(country, mean_per_order), y = mean_per_order)) +
+geom_col() +
+labs(x = "country", y = " gemiddelde per order")
+col_chart + coord_flip()
+# Scatterpoint aantal orders ten opzichte van gemiddelde order prijs
+overview_per_customer %>%
+ggplot(aes(x = total_orders, y = total_value)) +
+geom_point()
+View(overview_per_customer)
+View(col_chart)
+View(complete_info_per_country)
+overview_per_customer <- online_retail %>%
+group_by(customerid, country) %>%
+summarize(total_orders = n_distinct(invoiceno), total_value = sum(totalvalue))
+View(overview_per_customer)
+overview_per_customer <- online_retail %>%
+group_by(customerid, country) %>%
+drop_na() %>%
+summarize(total_orders = n_distinct(invoiceno), total_value = sum(totalvalue))
+View(online_retail)
+View(complete_info_per_country)
+complete_info_per_country %>% sum(total_value)
+sum(complete_info_per_country, total_value)
+sum(complete_info_per_country$total_value)
+9747748 *0.25
+8000000*5
+overview_per_customer$total_value/overview_per_customer$total_orders
+View(online_retail)
+# Installeren van packages en libraries ----
+# Packages
+install.packages("tidyverse")
+install.packages("here")
+install.packages("skimr")
+install.packages("janitor")
+# Libraries
+library(here)
+library(tidyverse)
+library(lubridate)
+library(skimr)
+library(janitor)
+# Laden van dataset ----
+setwd("CSV")
+# Originele dataset
+online_retail <- read_csv2("Online Retail4.csv")
+# Cleanen van de data ----
+# Omzetten van InvoiceDate kolom naar: datum zonder tijd in date format
+online_retail <- online_retail %>%
+separate(InvoiceDate, into = c("date"), sep = " ") %>%
+mutate(date = dmy(date)) %>%
+rename_with(tolower) %>% # Aanpassen kolomnaam naar lowercase
+clean_names()
+# Analyseren van de data ----
+# Totaalbedrag per orderregel toevoegen aan dataframe door middel van quantity * unit price
+online_retail <- online_retail %>%
+mutate(totalvalue = quantity * unitprice)
+# Overzicht per land van:
+complete_info_per_country <- online_retail %>%
+group_by(country) %>%
+summarize(customers = n_distinct(customerid), # Totaal aantal klanten
+total_orders = n_distinct(invoiceno), # Totaal aantal orders
+total_value = sum(totalvalue), # Totale waarde van alle orders
+mean_per_order = (total_value / total_orders) # Gemiddelde waarde per order
+) %>%
+mutate_if(is.numeric, ~round(., 2))
+# Overzicht aantal orders en totaalbedrag per klant
+overview_per_customer <- online_retail %>%
+group_by(customerid, country) %>%
+drop_na() %>%
+summarize(total_orders = n_distinct(invoiceno), total_value = sum(totalvalue))
+# Vizualiseren van de data ----
+# Kolomdiagram gemiddelde per order per land
+col_chart <- complete_info_per_country %>%
+ggplot(aes(x = fct_reorder(country, mean_per_order), y = mean_per_order)) +
+geom_col() +
+labs(x = "country", y = " gemiddelde per order")
+col_chart + coord_flip()
+# Scatterpoint aantal orders ten opzichte van gemiddelde order prijs
+overview_per_customer %>%
+ggplot(aes(x = total_orders, y = total_value)) +
+geom_point()
+# Installeren van packages en libraries ----
+# Packages
+install.packages("tidyverse")
+install.packages("here")
+install.packages("skimr")
+install.packages("janitor")
+# Libraries
+library(here)
+library(tidyverse)
+library(lubridate)
+library(skimr)
+library(janitor)
+# Laden van dataset ----
+setwd("CSV")
+# Originele dataset
+online_retail <- read_csv2("Online Retail4.csv")
+# Cleanen van de data ----
+# Omzetten van InvoiceDate kolom naar: datum zonder tijd in date format
+online_retail <- online_retail %>%
+separate(InvoiceDate, into = c("date"), sep = " ") %>%
+mutate(date = dmy(date)) %>%
+rename_with(tolower) %>% # Aanpassen kolomnaam naar lowercase
+clean_names()

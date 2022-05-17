@@ -1,0 +1,512 @@
+complete_info_per_country <- per_country_merge %>%
+reduce(full_join, by= "country")
+complete_info_per_country$meantest <- rowMeans(complete_info_per_country[,c("total_of_all_orders", "total_orders")], na.rm=TRUE)
+View(complete_info_per_country)
+# Gemiddelde waarde per order per land
+complete_info_per_country$meantest <- (complete_info_per_country$total_of_all_orders / complete_info_per_country$total_orders)
+View(complete_info_per_country)
+complete_info_per_country$meantest <- (complete_info_per_country$total_of_all_orders / complete_info_per_country$total_orders) %>%
+mutate_if(is.numeric, ~round(., 2))
+# Gemiddelde waarde per order per land
+complete_info_per_country$meantest <- (complete_info_per_country$total_of_all_orders / complete_info_per_country$total_orders && mutate_if(is.numeric, ~round(., 2)))
+# Gemiddelde waarde per order per land
+complete_info_per_country$meantest <- (complete_info_per_country$total_of_all_orders / complete_info_per_country$total_orders)
+View(complete_info_per_country)
+setwd("CSV")
+online_retail <- read_csv2("Online Retail4.csv")
+# Cleanen van de data ----
+# Omzetten character datatype van InvoiceDate kolom naar datetime formaat
+# Aanpassen kolomnaam naar lowercase
+online_retail <- online_retail %>%
+mutate(InvoiceDate = dmy_hms(InvoiceDate)) %>%
+rename_with(tolower) %>%
+clean_names()
+# Analyseren van de data ----
+# Totaalbedrag per order door middel van quantity * unit price
+online_retail_total <- online_retail %>%
+mutate(totalvalue = quantity * unitprice)
+# Totale waarde van online orders per land
+total_per_country <- online_retail_total %>%
+group_by(country) %>%
+summarize(total_of_all_orders = sum(totalvalue)) %>%
+arrange(-total_of_all_orders)
+# Totaal aantal orders per land
+orders_per_country <- online_retail_total %>%
+group_by(country) %>%
+summarise(total_orders = n_distinct(invoiceno)) %>%
+arrange(-total_orders)
+# Aantal klanten per land
+customers_per_country <- online_retail_total %>%
+group_by(country) %>%
+summarise(customers = n_distinct(customerid)) %>%
+arrange(-customers)
+# Samenvoegen van mean_per_country, customers_per_country, orders_per_country, total_per_country
+per_country_merge <- list(customers_per_country, orders_per_country, total_per_country)
+complete_info_per_country <- per_country_merge %>%
+reduce(full_join, by= "country")
+# Gemiddelde waarde per order per land
+complete_info_per_country$meantest <- (complete_info_per_country$total_of_all_orders / complete_info_per_country$total_orders)
+View(complete_info_per_country)
+# Gemiddelde waarde per order per land
+complete_info_per_country$mean_per_order <- (complete_info_per_country$total_of_all_orders / complete_info_per_country$total_orders)
+View(complete_info_per_country)
+online_retail <- read_csv2("Online Retail4.csv")
+# Cleanen van de data ----
+# Omzetten character datatype van InvoiceDate kolom naar datetime formaat
+# Aanpassen kolomnaam naar lowercase
+online_retail <- online_retail %>%
+mutate(InvoiceDate = dmy_hms(InvoiceDate)) %>%
+rename_with(tolower) %>%
+clean_names()
+# Analyseren van de data ----
+# Totaalbedrag per order door middel van quantity * unit price
+online_retail_total <- online_retail %>%
+mutate(totalvalue = quantity * unitprice)
+# Totale waarde van online orders per land
+total_per_country <- online_retail_total %>%
+group_by(country) %>%
+summarize(total_of_all_orders = sum(totalvalue)) %>%
+arrange(-total_of_all_orders)
+# Totaal aantal orders per land
+orders_per_country <- online_retail_total %>%
+group_by(country) %>%
+summarise(total_orders = n_distinct(invoiceno)) %>%
+arrange(-total_orders)
+# Aantal klanten per land
+customers_per_country <- online_retail_total %>%
+group_by(country) %>%
+summarise(customers = n_distinct(customerid)) %>%
+arrange(-customers)
+# Samenvoegen van mean_per_country, customers_per_country, orders_per_country, total_per_country
+per_country_merge <- list(customers_per_country, orders_per_country, total_per_country)
+complete_info_per_country <- per_country_merge %>%
+reduce(full_join, by= "country")
+# Gemiddelde waarde per order per land
+complete_info_per_country$mean_per_order <- (complete_info_per_country$total_of_all_orders / complete_info_per_country$total_orders)
+View(complete_info_per_country)
+sum(complete_info_per_country$total_of_all_orders)
+9747748*.16
+complete_info_per_country <- complete_info_per_country %>%
+mutate_if(is.numeric, ~round(., 2))
+View(complete_info_per_country)
+View(online_retail_total)
+View(online_retail)
+View(online_retail_total)
+sum(complete_info_per_country$customers)
+count(online_retail_total$customerid, NA)
+View(per_country_merge)
+View(per_country_merge)
+library(tidyverse)
+overview_per_customer <- online_retail_total %>%
+group_by(customerid, country) %>%
+summarize(total_orders = n_distinct(invoiceno), total_value = sum(totalvalue))
+View(overview_per_customer)
+UK_NA <- online_retail_total %>% filter(customerid == "NA", country == "United Kingdom")
+View(UK_NA)
+> UK_NA <- online_retail_total %>% filter(customerid == NA, country == "United Kingdom")
+source("~/Documents/NOVI/Wire Solutions/R/Scripts/online_retail.R")
+install.packages("tidyverse")
+# Dataset met NA value by cutomerid van United Kingdom verwijderd
+online_retail <- read_csv2("online_retail_without_empty_customerid.csv")
+# Dataset met NA value by cutomerid van United Kingdom verwijderd
+online_retail <- read_csv2("online_retail_without_empty_customerid.csv")
+online_retail <- online_retail %>%
+mutate(InvoiceDate = dmy_hms(InvoiceDate)) %>%
+rename_with(tolower) %>%
+clean_names()
+online_retail_total <- online_retail %>%
+mutate(totalvalue = quantity * unitprice)
+total_per_country <- online_retail_total %>%
+group_by(country) %>%
+summarize(total_of_all_orders = sum(totalvalue)) %>%
+arrange(-total_of_all_orders)
+# 3 Totaal aantal orders per land
+orders_per_country <- online_retail_total %>%
+group_by(country) %>%
+summarize(total_orders = n_distinct(invoiceno)) %>%
+arrange(-total_orders)
+# 4 Aantal klanten per land
+customers_per_country <- online_retail_total %>%
+group_by(country) %>%
+summarize(customers = n_distinct(customerid)) %>%
+arrange(-customers)
+# 5 Samenvoegen van mean_per_country, customers_per_country, orders_per_country, total_per_country
+per_country_merge <- list(customers_per_country, orders_per_country, total_per_country)
+complete_info_per_country <- per_country_merge %>%
+reduce(full_join, by= "country")
+# 6 Gemiddelde waarde per order per land
+complete_info_per_country$mean_per_order <-
+(complete_info_per_country$total_of_all_orders / complete_info_per_country$total_orders)
+# 7 Aanpassing van bedragen naar twee decimalen achter komma
+complete_info_per_country <- complete_info_per_country %>%
+mutate_if(is.numeric, ~round(., 2))
+overview_per_customer <- online_retail_total %>%
+group_by(customerid, country) %>%
+summarize(total_orders = n_distinct(invoiceno), total_value = sum(totalvalue))
+View(complete_info_per_country)
+View(complete_info_per_country)
+View(online_retail_total)
+View(overview_per_customer)
+View(complete_info_per_country)
+online_retail <- read_csv2("Online Retail4.csv")
+online_retail <- online_retail %>%
+mutate(InvoiceDate = dmy_hms(InvoiceDate)) %>%
+rename_with(tolower) %>%
+clean_names()
+online_retail_total <- online_retail %>%
+mutate(totalvalue = quantity * unitprice)
+total_per_country <- online_retail_total %>%
+group_by(country) %>%
+summarize(total_of_all_orders = sum(totalvalue)) %>%
+arrange(-total_of_all_orders)
+# 3 Totaal aantal orders per land
+orders_per_country <- online_retail_total %>%
+group_by(country) %>%
+summarize(total_orders = n_distinct(invoiceno)) %>%
+arrange(-total_orders)
+# 4 Aantal klanten per land
+customers_per_country <- online_retail_total %>%
+group_by(country) %>%
+summarize(customers = n_distinct(customerid)) %>%
+arrange(-customers)
+# 5 Samenvoegen van mean_per_country, customers_per_country, orders_per_country, total_per_country
+per_country_merge <- list(customers_per_country, orders_per_country, total_per_country)
+complete_info_per_country <- per_country_merge %>%
+reduce(full_join, by= "country")
+# 6 Gemiddelde waarde per order per land
+complete_info_per_country$mean_per_order <-
+(complete_info_per_country$total_of_all_orders / complete_info_per_country$total_orders)
+# 7 Aanpassing van bedragen naar twee decimalen achter komma
+complete_info_per_country <- complete_info_per_country %>%
+mutate_if(is.numeric, ~round(., 2))
+View(complete_info_per_country)
+View(total_per_country)
+View(total_per_country)
+online_retail <- read_csv2("online_retail_without_empty_customerid.csv")
+View(online_retail)
+online_retail <- read_csv2("Online Retail4.csv")
+View(online_retail)
+View(online_retail)
+online_retail <- online_retail %>%
+mutate(InvoiceDate = dmy_hms(InvoiceDate)) %>%
+rename_with(tolower) %>%
+clean_names()
+# Analyseren van de data ----
+# Onderstaande 7 stappen kunnen samen uitgevoerd worden om verschillende overzichten per land te krijgen en deze samen te voegen tot een tabel ----
+# 1 Totaalbedrag per order door middel van quantity * unit price
+online_retail_total <- online_retail %>%
+mutate(totalvalue = quantity * unitprice)
+# 2 Totale waarde van online orders per land
+total_per_country <- online_retail_total %>%
+group_by(country) %>%
+summarize(total_of_all_orders = sum(totalvalue)) %>%
+arrange(-total_of_all_orders)
+# 3 Totaal aantal orders per land
+orders_per_country <- online_retail_total %>%
+group_by(country) %>%
+summarize(total_orders = n_distinct(invoiceno)) %>%
+arrange(-total_orders)
+# 4 Aantal klanten per land
+customers_per_country <- online_retail_total %>%
+group_by(country) %>%
+summarize(customers = n_distinct(customerid)) %>%
+arrange(-customers)
+# 5 Samenvoegen van mean_per_country, customers_per_country, orders_per_country, total_per_country
+per_country_merge <- list(customers_per_country, orders_per_country, total_per_country)
+complete_info_per_country <- per_country_merge %>%
+reduce(full_join, by= "country")
+# 6 Gemiddelde waarde per order per land
+complete_info_per_country$mean_per_order <-
+(complete_info_per_country$total_of_all_orders / complete_info_per_country$total_orders)
+# 7 Aanpassing van bedragen naar twee decimalen achter komma
+complete_info_per_country <- complete_info_per_country %>%
+mutate_if(is.numeric, ~round(., 2))
+# Overzicht aantal orders en totaalbedrag per klant
+overview_per_customer <- online_retail_total %>%
+group_by(customerid, country) %>%
+summarize(total_orders = n_distinct(invoiceno), total_value = sum(totalvalue))
+View(per_country_merge)
+View(complete_info_per_country)
+View(total_per_country)
+View(overview_per_customer)
+View(overview_per_customer)
+overview_per_customer <- online_retail_total %>%
+group_by(customerid, country) %>%
+drop_na() %>%
+summarize(total_orders = n_distinct(invoiceno), total_value = sum(totalvalue))
+View(overview_per_customer)
+overview_per_customer <- online_retail_total %>%
+group_by(customerid, country) %>%
+summarize(total_orders = n_distinct(invoiceno), total_value = sum(totalvalue))
+View(overview_per_customer)
+# Overzicht aantal orders en totaalbedrag per klant
+overview_per_customer <- online_retail_total %>%
+group_by(customerid, country) %>%
+drop_na() %>%
+summarize(total_orders = n_distinct(invoiceno), total_value = sum(totalvalue))
+View(overview_per_customer)
+View(overview_per_customer)
+online_retail <- read_csv2("Online Retail4.csv")
+# Cleanen van de data ----
+# Omzetten character datatype van InvoiceDate kolom naar datetime formaat
+# Aanpassen kolomnaam naar lowercase
+online_retail <- online_retail %>%
+mutate(InvoiceDate = dmy_hms(InvoiceDate)) %>%
+rename_with(tolower) %>%
+clean_names()
+# Analyseren van de data ----
+# Onderstaande 7 stappen kunnen samen uitgevoerd worden om verschillende overzichten per land te krijgen en deze samen te voegen tot een tabel ----
+# 1 Totaalbedrag per order door middel van quantity * unit price
+online_retail_total <- online_retail %>%
+mutate(totalvalue = quantity * unitprice)
+# 2 Totale waarde van online orders per land
+total_per_country <- online_retail_total %>%
+group_by(country) %>%
+summarize(total_of_all_orders = sum(totalvalue)) %>%
+arrange(-total_of_all_orders)
+# 3 Totaal aantal orders per land
+orders_per_country <- online_retail_total %>%
+group_by(country) %>%
+summarize(total_orders = n_distinct(invoiceno)) %>%
+arrange(-total_orders)
+# 4 Aantal klanten per land
+customers_per_country <- online_retail_total %>%
+group_by(country) %>%
+summarize(customers = n_distinct(customerid)) %>%
+arrange(-customers)
+# 5 Samenvoegen van mean_per_country, customers_per_country, orders_per_country, total_per_country
+per_country_merge <- list(customers_per_country, orders_per_country, total_per_country)
+complete_info_per_country <- per_country_merge %>%
+reduce(full_join, by= "country")
+# 6 Gemiddelde waarde per order per land
+complete_info_per_country$mean_per_order <-
+(complete_info_per_country$total_of_all_orders / complete_info_per_country$total_orders)
+# 7 Aanpassing van bedragen naar twee decimalen achter komma
+complete_info_per_country <- complete_info_per_country %>%
+mutate_if(is.numeric, ~round(., 2))
+# Overzicht aantal orders en totaalbedrag per klant
+overview_per_customer <- online_retail_total %>%
+group_by(customerid, country) %>%
+drop_na() %>%
+summarize(total_orders = n_distinct(invoiceno), total_value = sum(totalvalue))
+# Originele dataset
+online_retail <- read_csv2("Online Retail4.csv")
+View(online_retail)
+head(online_retail)
+online_retail <- online_retail %>%
+mutate(InvoiceDate = dmy_hms(InvoiceDate)) %>%
+rename_with(tolower) %>%
+clean_names()
+View(online_retail)
+head(online_retail)
+online_retail_total <- online_retail %>%
+mutate(totalvalue = quantity * unitprice)
+View(online_retail_total)
+online_retail_single_orderline <- online_retail_total %>%
+group_by(invoiceno)
+View(online_retail_single_orderline)
+View(online_retail_single_orderline)
+online_retail <- read_csv2("Online Retail4.csv")
+# Cleanen van de data ----
+# Omzetten character datatype van InvoiceDate kolom naar datetime formaat
+# Aanpassen kolomnaam naar lowercase
+online_retail <- online_retail %>%
+mutate(InvoiceDate = dmy_hms(InvoiceDate)) %>%
+rename_with(tolower) %>%
+clean_names()
+# Analyseren van de data ----
+# Onderstaande 7 stappen kunnen samen uitgevoerd worden om verschillende overzichten per land te krijgen en deze samen te voegen tot een tabel ----
+# 1 Totaalbedrag per order door middel van quantity * unit price
+online_retail_total <- online_retail %>%
+mutate(totalvalue = quantity * unitprice)
+total_per_country <- online_retail_total %>%
+group_by(country) %>%
+summarize(total_of_all_orders = sum(totalvalue)) %>%
+arrange(-total_of_all_orders)
+View(total_per_country)
+# Originele dataset
+online_retail <- read_csv2("Online Retail4.csv")
+online_retail_total <- online_retail %>%
+mutate(totalvalue = quantity * unitprice)
+online_retail <- online_retail %>%
+mutate(InvoiceDate = dmy_hms(InvoiceDate)) %>%
+rename_with(tolower) %>%
+clean_names()
+online_retail_total <- online_retail %>%
+mutate(totalvalue = quantity * unitprice)
+complete_info_per_country <- online_retail_total %>%
+group_by(country) %>%
+summarize(total_of_all_orders = sum(totalvalue),
+total_orders = n_distinct(invoiceno),
+customers = n_distinct(customerid))
+View(complete_info_per_country)
+complete_info_per_country <- online_retail_total %>%
+group_by(country) %>%
+summarize(customers = n_distinct(customerid),
+total_orders = n_distinct(invoiceno),
+total_value = sum(totalvalue)
+)
+View(complete_info_per_country)
+complete_info_per_country <- online_retail_total %>%
+group_by(country) %>%
+summarize(customers = n_distinct(customerid),
+total_orders = n_distinct(invoiceno),
+total_value = sum(totalvalue)
+) %>%
+mean_per_order <- (complete_info_per_country$total_value / complete_info_per_country$total_orders)
+complete_info_per_country <- online_retail_total %>%
+group_by(country) %>%
+summarize(customers = n_distinct(customerid),
+total_orders = n_distinct(invoiceno),
+total_value = sum(totalvalue)
+) %>%
+complete_info_per_country$mean_per_order <- (complete_info_per_country$total_value / complete_info_per_country$total_orders)
+complete_info_per_country <- online_retail_total %>%
+group_by(country) %>%
+summarize(customers = n_distinct(customerid),
+total_orders = n_distinct(invoiceno),
+total_value = sum(totalvalue),
+mean_per_order = (total_value / total_orders)
+)
+View(complete_info_per_country)
+complete_info_per_country <- online_retail_total %>%
+group_by(country) %>%
+summarize(customers = n_distinct(customerid),
+total_orders = n_distinct(invoiceno),
+total_value = sum(totalvalue),
+mean_per_order = (total_value / total_orders)
+) %>%
+mutate_if(is.numeric, ~round(., 2))
+View(complete_info_per_country)
+complete_info_per_country <- online_retail_total %>%
+group_by(country) %>%
+summarize(customers = n_distinct(customerid),
+total_orders = n_distinct(invoiceno),
+total_value = sum(totalvalue),
+mean_per_order = (total_value / total_orders)
+) %>%
+View(complete_info_per_country)
+complete_info_per_country <- online_retail_total %>%
+group_by(country) %>%
+summarize(customers = n_distinct(customerid),
+total_orders = n_distinct(invoiceno),
+total_value = sum(totalvalue),
+mean_per_order = (total_value / total_orders)
+)
+View(complete_info_per_country)
+complete_info_per_country <- online_retail_total %>%
+group_by(country) %>%
+summarize(customers = n_distinct(customerid),
+total_orders = n_distinct(invoiceno),
+total_value = sum(totalvalue),
+mean_per_order = (total_value / total_orders)
+) %>%
+mutate_if(is.numeric, ~round(., 2))
+View(complete_info_per_country)
+View(complete_info_per_country)
+online_retail <- read_csv2("Online Retail4.csv")
+# Cleanen van de data ----
+# Omzetten character datatype van InvoiceDate kolom naar datetime formaat
+# Aanpassen kolomnaam naar lowercase
+online_retail <- online_retail %>%
+mutate(InvoiceDate = dmy_hms(InvoiceDate)) %>%
+rename_with(tolower) %>%
+clean_names()
+# Analyseren van de data ----
+# Totaalbedrag per orderregel toevoegen aan dataframe door middel van quantity * unit price
+online_retail_total <- online_retail %>%
+mutate(totalvalue = quantity * unitprice)
+# Overzicht per land van:
+complete_info_per_country <- online_retail_total %>%
+group_by(country) %>%
+summarize(customers = n_distinct(customerid), # Totaal aantal klanten
+total_orders = n_distinct(invoiceno), # Totaal aantal orders
+total_value = sum(totalvalue), # Totale waarde van alle orders
+mean_per_order = (total_value / total_orders) # Gemiddelde waarde per order
+) %>%
+mutate_if(is.numeric, ~round(., 2))
+# Overzicht aantal orders en totaalbedrag per klant
+overview_per_customer <- online_retail_total %>%
+group_by(customerid, country) %>%
+drop_na() %>%
+summarize(total_orders = n_distinct(invoiceno), total_value = sum(totalvalue))
+# Originele dataset
+online_retail <- read_csv2("Online Retail4.csv")
+# Cleanen van de data ----
+# Omzetten character datatype van InvoiceDate kolom naar datetime formaat
+# Aanpassen kolomnaam naar lowercase
+online_retail <- online_retail %>%
+mutate(InvoiceDate = dmy_hms(InvoiceDate)) %>%
+rename_with(tolower) %>%
+clean_names()
+# Analyseren van de data ----
+# Totaalbedrag per orderregel toevoegen aan dataframe door middel van quantity * unit price
+online_retail <- online_retail %>%
+mutate(totalvalue = quantity * unitprice)
+# Overzicht per land van:
+complete_info_per_country <- online_retail %>%
+group_by(country) %>%
+summarize(customers = n_distinct(customerid), # Totaal aantal klanten
+total_orders = n_distinct(invoiceno), # Totaal aantal orders
+total_value = sum(totalvalue), # Totale waarde van alle orders
+mean_per_order = (total_value / total_orders) # Gemiddelde waarde per order
+) %>%
+mutate_if(is.numeric, ~round(., 2))
+# Overzicht aantal orders en totaalbedrag per klant
+overview_per_customer <- online_retail %>%
+group_by(customerid, country) %>%
+drop_na() %>%
+summarize(total_orders = n_distinct(invoiceno), total_value = sum(totalvalue))
+View(overview_per_customer)
+View(complete_info_per_country)
+# Originele dataset
+online_retail <- read_csv2("Online Retail4.csv")
+online_retail <- online_retail %>%
+mutate(InvoiceDate = dmy_hms(InvoiceDate)) %>%
+rename_with(tolower) %>%
+clean_names()
+complete_info_per_country <- online_retail %>%
+mutate(totalvalue = quantity * unitprice) %>%
+group_by(country) %>%
+summarize(customers = n_distinct(customerid), # Totaal aantal klanten
+total_orders = n_distinct(invoiceno), # Totaal aantal orders
+total_value = sum(totalvalue), # Totale waarde van alle orders
+mean_per_order = (total_value / total_orders) # Gemiddelde waarde per order
+) %>%
+mutate_if(is.numeric, ~round(., 2))
+View(complete_info_per_country)
+View(complete_info_per_country)
+View(online_retail)
+online_retail <- read_csv2("Online Retail4.csv")
+# Cleanen van de data ----
+# Omzetten character datatype van InvoiceDate kolom naar datetime formaat
+# Aanpassen kolomnaam naar lowercase
+online_retail <- online_retail %>%
+mutate(InvoiceDate = dmy_hms(InvoiceDate)) %>%
+rename_with(tolower) %>%
+clean_names()
+# Analyseren van de data ----
+# Totaalbedrag per orderregel toevoegen aan dataframe door middel van quantity * unit price
+online_retail <- online_retail %>%
+mutate(totalvalue = quantity * unitprice)
+# Overzicht per land van:
+complete_info_per_country <- online_retail %>%
+group_by(country) %>%
+summarize(customers = n_distinct(customerid), # Totaal aantal klanten
+total_orders = n_distinct(invoiceno), # Totaal aantal orders
+total_value = sum(totalvalue), # Totale waarde van alle orders
+mean_per_order = (total_value / total_orders) # Gemiddelde waarde per order
+) %>%
+mutate_if(is.numeric, ~round(., 2))
+View(complete_info_per_country)
+View(online_retail)
+source("~/Documents/NOVI/Wire Solutions/R/Scripts/online_retail.R")
+# Overzicht aantal orders en totaalbedrag per klant
+overview_per_customer <- online_retail %>%
+group_by(customerid, country) %>%
+drop_na() %>%
+summarize(total_orders = n_distinct(invoiceno), total_value = sum(totalvalue))
+View(overview_per_customer)
+install.packages("tidyverse")
+install.packages("skimr")
+install.packages("janitor")
